@@ -1,7 +1,7 @@
 {
-  "name": "full-stack-overflow-developer-api",
-  "version": "0.0.1",
-  "description": "An api to track Full Stack Overflow Developer Q&A",
+  "name": "repoprovas-api",
+  "version": "0.1.0",
+  "description": "This is a repository of tests, it can be extended to your college",
   "main": "dist/server.js",
   "engines": { "node": "14.17.5" },
   "scripts": {
@@ -13,7 +13,7 @@
   "postinstall": "npm run build",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cgabrieu/full-stack-overflow-developer-api.git"
+    "url": "git+https://github.com/cgabrieu/repoprovas-api.git"
   },
   "keywords": [
     "nodejs",
@@ -22,16 +22,14 @@
   "author": "cgabrieu",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/cgabrieu/full-stack-overflow-developer-api/issues"
+    "url": "https://github.com/cgabrieu/repoprovas-api/issues"
   },
-  "homepage": "https://github.com/cgabrieu/full-stack-overflow-developer-api#readme",
+  "homepage": "https://github.com/cgabrieu/repoprovas-api#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "dayjs": "^1.10.7",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "joi": "^17.5.0",
-    "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.1"
   },
   "devDependencies": {
@@ -39,7 +37,6 @@
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.13",
     "@types/joi": "^17.2.3",
-    "@types/jsonwebtoken": "^8.5.6",
     "@types/node": "^16.11.12",
     "@types/pg": "^8.6.1",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
