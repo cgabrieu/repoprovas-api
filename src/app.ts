@@ -10,4 +10,8 @@ app.use(express.json());
 app.use(router);
 app.use(errorMiddleware);
 
+export async function init () {
+    await connectDatabase();
+  }
+
 export default app;

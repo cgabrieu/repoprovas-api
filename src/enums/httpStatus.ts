@@ -1,7 +1,7 @@
 export default Object.freeze({
   OK: {
     code: 200,
-    name: 'Everything okay'
+    message: 'Everything okay'
   },
   CREATED: 201,
   NO_CONTENT: 204,
