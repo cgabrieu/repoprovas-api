@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "description": "This is a repository of tests, it can be extended to your college",
   "main": "dist/server.js",
-  "engines": { "node": "14.17.5" },
+  "engines": {
+    "node": "14.17.5"
+  },
   "scripts": {
     "start": "NODE_ENV=prod node dist/server.js",
     "build": "tsc",
@@ -47,9 +49,11 @@
     "eslint-plugin-import": "^2.25.3",
     "git-commit-msg-linter": "^3.2.8",
     "husky": "^7.0.4",
+    "jest": "^27.4.5",
     "lint-staged": "^12.1.2",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
+    "supertest": "^6.1.6",
     "typescript": "^4.5.3"
   }
 }
