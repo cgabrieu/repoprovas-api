@@ -1,6 +1,7 @@
 import { getRepository } from 'typeorm';
 import CourseEntity from '../entities/CourseEntity';
 import Conflict from '../errors/Conflict';
+import NotFound from '../errors/NotFound';
 import Course from '../protocols/Course';
 
 export async function create(courseBody: Course): Promise<CourseEntity> {
@@ -20,6 +21,10 @@ export async function create(courseBody: Course): Promise<CourseEntity> {
 
 export async function getList(): Promise<Course[]> {
   const courses: Course[] = await getRepository(CourseEntity).find();
+
+  if (!courses.length) {
+    throw new NotFound('No registered courses were found.')
+  }
 
  return courses;
 }
