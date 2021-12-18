@@ -2,7 +2,7 @@
 import { getConnection } from 'typeorm';
 import supertest from 'supertest';
 import app, { init } from '../../src/app';
-import { createUser } from '../factories/userFactory';
+import { createUser } from '../factories/courseFactory';
 import { clearDatabase } from '../utils/database';
 
 beforeAll(async () => {

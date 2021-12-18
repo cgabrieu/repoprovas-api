@@ -3,10 +3,10 @@ import CourseEntity from '../entities/CourseEntity';
 import Conflict from '../errors/Conflict';
 import Course from '../protocols/Course';
 
-export async function create(courseBody: Course) {
+export async function create(courseBody: Course): Promise<CourseEntity> {
   const { name } = courseBody;
 
-  const existsCourse = await getRepository('courses').find({ name });
+  const existsCourse = await getRepository('courses').findOne({ name });
   if (existsCourse) {
     throw new Conflict('Course already registered.');
   }
@@ -15,5 +15,5 @@ export async function create(courseBody: Course) {
   course.name = name;
   await getRepository('courses').save(course);
 
-  console.log(course);
+  return course;
 }
