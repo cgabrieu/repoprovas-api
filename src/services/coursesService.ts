@@ -17,3 +17,4 @@ export async function create(courseBody: Course): Promise<CourseEntity> {
 
   return course;
 }
+

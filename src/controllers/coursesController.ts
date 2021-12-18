@@ -25,3 +25,14 @@ export async function createCourse(req: Request, res: Response, next: NextFuncti
     return next();
   }
 }
+
+export async function listCourses(req: Request, res: Response, next: NextFunction) {
+  try {
+      const result = await coursesService.getList();
+      return res.status(httpStatus.OK).send(result);
+  } catch (error) {
+    if (error instanceof Invalid) return res.status(httpStatus.BAD_REQUEST).send(error.message);
+    if (error instanceof Conflict) return res.status(httpStatus.CONFLICT).send(error.message);
+    return next();
+  }
+}
