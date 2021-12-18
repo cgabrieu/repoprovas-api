@@ -1,4 +1,4 @@
-CREATE TYPE type_test AS ENUM ('P1', 'P2', 'P3', '2ch', 'F', 'Outras');
+CREATE TYPE type_test AS ENUM ('P1', 'P2', 'P3', '2ch', 'PF', 'Outra');
 
 CREATE TABLE "tests" (
 	"id" serial NOT NULL,
