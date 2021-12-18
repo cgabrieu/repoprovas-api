@@ -2,9 +2,7 @@ import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'ty
 import ClassEntity from './ClassEntity';
 import TeacherEntity from './TeacherEntity';
 
-export type TypeRole = 'P1' | 'P2' | 'P3' | 'F' | '2ch' | 'F' | 'Outras';
-
-export enum UserRole {
+export enum TypeEnum {
   PROVA_1 = 'P1',
   PROVA_2 = 'P2',
   PROVA_3 = 'P3',
@@ -26,9 +24,9 @@ export default class TestEntity {
 
   @Column({
     type: 'enum',
-    enum
+    enum: TypeEnum,
   })
-  type: string;
+  type: TypeEnum;
 
   @Column({ length: 510 })
   link: string;
