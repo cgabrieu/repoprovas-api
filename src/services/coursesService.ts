@@ -18,3 +18,9 @@ export async function create(courseBody: Course): Promise<CourseEntity> {
   return course;
 }
 
+export async function getList(): Promise<CourseEntity[]> {
+  const courses: CourseEntity[] = await getRepository('courses').find();
+
+ return courses;
+}
+
