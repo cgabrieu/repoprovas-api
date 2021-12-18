@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Check, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import ClassEntity from './ClassEntity';
 import TeacherEntity from './TeacherEntity';
 
@@ -12,14 +12,16 @@ export enum TypeEnum {
 }
 
 @Entity('tests')
+@Check('"year" BETWEEN 2015 AND 2030')
+@Check('"semester" = 1 OR "semester" = 2')
 export default class TestEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('integer')
   year: number;
 
-  @Column()
+  @Column('integer')
   semester: number;
 
   @Column({

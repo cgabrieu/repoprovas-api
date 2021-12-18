@@ -11,7 +11,8 @@
     "build": "tsc",
     "start:test": "nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"ts-node src/server.ts\"",
     "start:dev": "NODE_ENV=dev npx nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"ts-node src/server.ts\"",
-    "typeorm": "ts-node ./node_modules/typeorm/cli"
+    "typeorm": "ts-node ./node_modules/typeorm/cli",
+    "newmigration": "npm run build && npm run typeorm migration:generate -- -n $NAME && npm run build && npm run typeorm migration:run"
   },
   "postinstall": "npm run build",
   "repository": {

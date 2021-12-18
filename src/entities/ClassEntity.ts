@@ -1,7 +1,8 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Check, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import CourseEntity from './CourseEntity';
 
 @Entity('classes')
+@Check('"period" BETWEEN 1 AND 10')
 export default class ClassEntity {  
     @PrimaryGeneratedColumn()
     id: number;
@@ -9,7 +10,7 @@ export default class ClassEntity {
     @Column()
     name: string;
 
-    @Column()
+    @Column('integer')
     period: number;
 
     @ManyToMany(() => CourseEntity, (course) => course.id, { eager: true })

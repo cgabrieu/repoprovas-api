@@ -1,13 +1,14 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class PrimeiraMigracao1639805248609 implements MigrationInterface {
-    name = 'PrimeiraMigracao1639805248609'
+export class CreateMainTables1639811325524 implements MigrationInterface {
+    name = 'CreateMainTables1639811325524'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "courses" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, CONSTRAINT "PK_3f70a487cc718ad8eda4e6d58c9" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "classes" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "period" integer NOT NULL, CONSTRAINT "PK_e207aa15404e9b2ce35910f9f7f" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "classes" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "period" integer NOT NULL, CONSTRAINT "CHK_b01a4177dc95b9a10eb38e352d" CHECK ("period" BETWEEN 1 AND 10), CONSTRAINT "PK_e207aa15404e9b2ce35910f9f7f" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "teachers" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, CONSTRAINT "PK_a8d4f83be3abe4c687b0a0093c8" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "tests" ("id" SERIAL NOT NULL, "year" integer NOT NULL, "semester" integer NOT NULL, "type" character varying NOT NULL, "link" character varying(510) NOT NULL, "teacher_id" integer, "class_id" integer, CONSTRAINT "REL_3a4e54902753a8b6415963a3ea" UNIQUE ("teacher_id"), CONSTRAINT "REL_af99930c4bdce16544496de5f7" UNIQUE ("class_id"), CONSTRAINT "PK_4301ca51edf839623386860aed2" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TYPE "public"."tests_type_enum" AS ENUM('P1', 'P2', 'P3', 'PF', '2ch', 'Outra')`);
+        await queryRunner.query(`CREATE TABLE "tests" ("id" SERIAL NOT NULL, "year" integer NOT NULL, "semester" integer NOT NULL, "type" "public"."tests_type_enum" NOT NULL, "link" character varying(510) NOT NULL, "teacher_id" integer, "class_id" integer, CONSTRAINT "REL_3a4e54902753a8b6415963a3ea" UNIQUE ("teacher_id"), CONSTRAINT "REL_af99930c4bdce16544496de5f7" UNIQUE ("class_id"), CONSTRAINT "CHK_53d6f17a67e60e792c25d55dc7" CHECK ("semester" = 1 OR "semester" = 2), CONSTRAINT "CHK_49d5b5dc0c87afae733eab799a" CHECK ("year" BETWEEN 2015 AND 2030), CONSTRAINT "PK_4301ca51edf839623386860aed2" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "classes_courses" ("class_id" integer NOT NULL, "course_id" integer NOT NULL, CONSTRAINT "PK_1c207f073a913706d421944be45" PRIMARY KEY ("class_id", "course_id"))`);
         await queryRunner.query(`CREATE INDEX "IDX_cbbfceecde8b1bab465c802d72" ON "classes_courses" ("class_id") `);
         await queryRunner.query(`CREATE INDEX "IDX_4d9218013aedef0b5458af6105" ON "classes_courses" ("course_id") `);
@@ -36,6 +37,7 @@ export class PrimeiraMigracao1639805248609 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX "public"."IDX_cbbfceecde8b1bab465c802d72"`);
         await queryRunner.query(`DROP TABLE "classes_courses"`);
         await queryRunner.query(`DROP TABLE "tests"`);
+        await queryRunner.query(`DROP TYPE "public"."tests_type_enum"`);
         await queryRunner.query(`DROP TABLE "teachers"`);
         await queryRunner.query(`DROP TABLE "classes"`);
         await queryRunner.query(`DROP TABLE "courses"`);
