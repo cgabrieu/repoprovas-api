@@ -30,7 +30,7 @@ export async function createClass(req: Request, res: Response, next: NextFunctio
   }
 }
 
-/* export async function getClassesByCourse(req: Request, res: Response, next: NextFunction) {
+export async function getClassesByCourse(req: Request, res: Response, next: NextFunction) {
   try {
       const result = await classesService.getByCourse();
       return res.status(httpStatus.OK).send(result);
@@ -38,4 +38,4 @@ export async function createClass(req: Request, res: Response, next: NextFunctio
     if (error instanceof NotFound) return res.status(httpStatus.NOT_FOUND).send(error.message);
     return next();
   }
-} */
+}
