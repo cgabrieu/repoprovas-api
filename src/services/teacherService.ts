@@ -38,16 +38,16 @@ export async function create(teacherBody: ITeacher): Promise<TeacherEntity> {
   return newTeacher;
 }
 
-export async function getByCourse(courseId: number): Promise<IClass[]> {
-  const classes = await getRepository(ClassEntity).find({
+export async function getByCourse(courseId: number): Promise<ITeacher[]> {
+  const teachers = await getRepository(TeacherEntity).find({
     where: (qb: any) => {
         qb.where('course_id = :courseId', {courseId})
     }
   });
 
-  if (!classes) {
-    throw new NotFound('No registered classes found.');
+  if (!teachers.length) {
+    throw new NotFound('No registered teachers found.');
   }
 
-  return classes;
+  return teachers;
 }
