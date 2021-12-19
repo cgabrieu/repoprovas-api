@@ -30,7 +30,7 @@ export default class TestEntity {
   })
   type: TypeEnum;
 
-  @Column({ length: 510 })
+  @Column({ length: 510, unique: true })
   link: string;
 
   @ManyToOne(() => TeacherEntity, { eager: true })
