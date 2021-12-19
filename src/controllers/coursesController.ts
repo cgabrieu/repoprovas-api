@@ -3,13 +3,13 @@ import httpStatus from "../enums/httpStatus";
 import Conflict from "../errors/Conflict";
 import Invalid from "../errors/Invalid";
 import NotFound from "../errors/NotFound";
-import Course from "../protocols/Course";
+import ICourse from "../protocols/ICourse";
 import { createCourseSchema } from "../schemas/coursesSchemas";
 import * as coursesService from '../services/coursesService'
 
 export async function createCourse(req: Request, res: Response, next: NextFunction) {
   try {
-      const courseBody: Course = req.body;
+      const courseBody: ICourse = req.body;
 
       const { error: invalidBody } = createCourseSchema.validate(courseBody);
       if (invalidBody) {

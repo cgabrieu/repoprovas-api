@@ -11,6 +11,7 @@
     "build": "tsc",
     "test": "NODE_ENV=test npx jest -i",
     "dev": "ts-node-dev --respawn --transpile-only --inspect -- ./src/server.ts --ignore-watch node_modules",
+    "start:dev": "NODE_ENV=dev npx nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"ts-node src/server.ts\"",
     "typeorm": "ts-node ./node_modules/typeorm/cli",
     "newmigration": "npm run build && npm run typeorm migration:generate -- -n $NAME && npm run build && npm run typeorm migration:run",
     "pre:test:drop": "NODE_ENV=test typeorm schema:drop",

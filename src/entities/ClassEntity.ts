@@ -25,5 +25,5 @@ export default class ClassEntity {
             referencedColumnName: "id"
         }
     })
-    users: CourseEntity[]
+    courses: CourseEntity[]
 }

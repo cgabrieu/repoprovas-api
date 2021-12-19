@@ -2,7 +2,7 @@ import { getRepository } from 'typeorm';
 import CourseEntity from '../entities/CourseEntity';
 import Conflict from '../errors/Conflict';
 import NotFound from '../errors/NotFound';
-import Course from '../protocols/Course';
+import Course from '../protocols/ICourse';
 
 export async function create(courseBody: Course): Promise<CourseEntity> {
   const { name } = courseBody;

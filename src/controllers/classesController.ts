@@ -1,38 +1,45 @@
 import { Request, Response, NextFunction } from "express";
+import { UpdateResult } from "typeorm";
 import httpStatus from "../enums/httpStatus";
 import Conflict from "../errors/Conflict";
 import Invalid from "../errors/Invalid";
 import NotFound from "../errors/NotFound";
-import Class from "../protocols/Class";
-import { createCourseSchema } from "../schemas/coursesSchemas";
-import * as coursesService from '../services/coursesService'
+import IClass from "../protocols/IClass";
+import { createClassSchema } from "../schemas/classesSchemas";
+import * as classesService from '../services/classesService'
 
 export async function createClass(req: Request, res: Response, next: NextFunction) {
   try {
-      const classBody: Class = req.body;
+      const classBody: IClass = req.body;
 
-      const { error: invalidBody } = createCourseSchema.validate(classBody);
+      const { error: invalidBody } = createClassSchema.validate(classBody);
       if (invalidBody) {
         throw new Invalid(invalidBody.message);
       }
 
-      await coursesService.create(classBody);
+      let resultMessage = 'Class created successfully!';
+      if (await classesService.create(classBody) instanceof UpdateResult) {
+        resultMessage = 'Class updated successfully!'
+      }
+
       return res.status(httpStatus.CREATED).send({
-        message: 'Class created successfully!'
+        message: resultMessage,
       });
   } catch (error) {
+    console.error(error.message);
     if (error instanceof Invalid) return res.status(httpStatus.BAD_REQUEST).send(error.message);
     if (error instanceof Conflict) return res.status(httpStatus.CONFLICT).send(error.message);
+    if (error instanceof NotFound) return res.status(httpStatus.NOT_FOUND).send(error.message);
     return next();
   }
 }
 
-export async function getClassesByCourse(req: Request, res: Response, next: NextFunction) {
+/* export async function getClassesByCourse(req: Request, res: Response, next: NextFunction) {
   try {
-      const result = await coursesService.getByCourse();
+      const result = await classesService.getByCourse();
       return res.status(httpStatus.OK).send(result);
   } catch (error) {
     if (error instanceof NotFound) return res.status(httpStatus.NOT_FOUND).send(error.message);
     return next();
   }
-}
+} */
