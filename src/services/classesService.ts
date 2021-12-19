@@ -38,10 +38,14 @@ export async function create(classBody: IClass): Promise<ClassEntity | UpdateRes
   return newClass;
 }
 
-export async function getList(): Promise<ICourse[]> {
-  const classes: ICourse[] = await getRepository(ClassEntity).find();
+export async function getByCourse(courseId: number): Promise<IClass[]> {
+  const classes = await getRepository(ClassEntity).find({
+    where: (qb: any) => {
+        qb.where('course_id = :courseId', {courseId})
+    }
+  });
 
-  if (!classes.length) {
+  if (!classes) {
     throw new NotFound('No registered classes found.');
   }
 

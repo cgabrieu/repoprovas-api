@@ -1,4 +1,5 @@
 import { Check, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { threadId } from 'worker_threads';
 import CourseEntity from './CourseEntity';
 
 @Entity('classes')
@@ -13,7 +14,7 @@ export default class ClassEntity {
     @Column('integer')
     period: number;
 
-    @ManyToMany(() => CourseEntity, (course) => course.id, { eager: true })
+    @ManyToMany(() => CourseEntity, { eager: true })
     @JoinTable({
         name: 'classes_courses',
         joinColumn: {
@@ -25,5 +26,5 @@ export default class ClassEntity {
             referencedColumnName: "id"
         }
     })
-    courses: CourseEntity[]
+    courses: CourseEntity[];
 }
