@@ -1,4 +1,4 @@
-import { Check, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Check, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import ClassEntity from './ClassEntity';
 import TeacherEntity from './TeacherEntity';
 
@@ -33,11 +33,11 @@ export default class TestEntity {
   @Column({ length: 510 })
   link: string;
 
-  @OneToOne(() => TeacherEntity)
+  @ManyToOne(() => TeacherEntity, { eager: true })
   @JoinColumn({ name: 'teacher_id' })
   teacher: TeacherEntity; 
 
-  @OneToOne(() => ClassEntity)
+  @ManyToOne(() => ClassEntity,  { eager: true })
   @JoinColumn({ name: 'class_id' })
   class: ClassEntity;
 }
