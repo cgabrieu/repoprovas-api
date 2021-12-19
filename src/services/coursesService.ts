@@ -23,7 +23,7 @@ export async function getList(): Promise<Course[]> {
   const courses: Course[] = await getRepository(CourseEntity).find();
 
   if (!courses.length) {
-    throw new NotFound('No registered courses were found.')
+    throw new NotFound('No registered courses found.')
   }
 
  return courses;
