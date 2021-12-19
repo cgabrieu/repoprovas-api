@@ -3,15 +3,15 @@ import httpStatus from "../enums/httpStatus";
 import Conflict from "../errors/Conflict";
 import Invalid from "../errors/Invalid";
 import NotFound from "../errors/NotFound";
-import ICourse from "../protocols/ICourse";
-import { createCourseSchema } from "../schemas/coursesSchemas";
+import ITest from "../protocols/ITest";
+import { createTestSchema } from "../schemas/testsSchemas";
 import * as coursesService from '../services/coursesService'
 
 export async function createTest(req: Request, res: Response, next: NextFunction) {
   try {
-      const testBody: ICourse = req.body;
-
-      const { error: invalidBody } = createCourseSchema.validate(testBody);
+      const testBody: ITest = req.body;
+      console.log(testBody);
+      const { error: invalidBody } = createTestSchema.validate(testBody);
       if (invalidBody) {
         throw new Invalid(invalidBody.message);
       }
