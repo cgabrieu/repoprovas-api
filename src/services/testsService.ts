@@ -13,7 +13,6 @@ export async function create(testBody: ITest): Promise<TestEntity> {
 
   const existTeacher = await getRepository(TeacherEntity).findOne(teacherId);
   const existClass = await getRepository(ClassEntity).findOne(classId);
-
   if (!existTeacher || !existClass) {
     throw new NotFound('Teacher or class not found.');
   }
@@ -28,7 +27,8 @@ export async function create(testBody: ITest): Promise<TestEntity> {
   test.class = existClass;
 
   const existsTest = await getRepository(TestEntity).findOne(test);
-  if (existsTest) {
+  const existsLink = await getRepository(TestEntity).findOne({ link });
+  if (existsTest || existsLink) {
     throw new Conflict('Test already registered.');
   }
 
