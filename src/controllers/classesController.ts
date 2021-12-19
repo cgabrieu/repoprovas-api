@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { UpdateResult } from "typeorm";
 import httpStatus from "../enums/httpStatus";
 import Conflict from "../errors/Conflict";
 import Invalid from "../errors/Invalid";
@@ -17,13 +16,10 @@ export async function createClass(req: Request, res: Response, next: NextFunctio
         throw new Invalid(invalidBody.message);
       }
 
-      let resultMessage = 'Class created successfully!';
-      if (await classesService.create(classBody) instanceof UpdateResult) {
-        resultMessage = 'Class updated successfully!'
-      }
+      const result = await classesService.create(classBody);
 
       return res.status(httpStatus.CREATED).send({
-        message: resultMessage,
+        message: result ? 'Class created successfully!' : 'Class updated successfully!',
       });
   } catch (error) {
     console.error(error.message);

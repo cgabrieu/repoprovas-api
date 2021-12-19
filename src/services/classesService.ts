@@ -13,21 +13,26 @@ export async function create(classBody: IClass): Promise<ClassEntity | UpdateRes
   if (existsCourses.length < courseId.length) {
     throw new NotFound('Course not found.');
   }
-  console.log(existsCourses);
 
   const existsClass = await getRepository(ClassEntity).findOne({ name });
-  console.log(existsClass);
   if (existsClass) {
-    Object.assign(existsClass, { courses: [this.courses, existsCourses ] })
-    existsClass.save(existsClass);
-    // return result;
+    const exitsClassCoursesIds = existsClass.courses.map(({ id }) => id);
+    const newCoursesIds = courseId.filter((id) => !exitsClassCoursesIds.includes(id));
+    const newCourses = await getRepository(CourseEntity).findByIds(newCoursesIds);
+    if (!newCourses.length) {
+      throw new Conflict('Class already exists.')
+    }
+
+    existsClass.courses.push(...newCourses);
+    await getRepository(ClassEntity).save(existsClass);
+    return null;
   }
 
   const newClass = new ClassEntity();
   newClass.name = name;
   newClass.period = period;
   newClass.courses = existsCourses;
-  
+
   await getRepository(ClassEntity).save(newClass);
 
   return newClass;
@@ -37,9 +42,8 @@ export async function getList(): Promise<ICourse[]> {
   const courses: ICourse[] = await getRepository(ClassEntity).find();
 
   if (!courses.length) {
-    throw new NotFound('No registered courses found.')
+    throw new NotFound('No registered courses found.');
   }
 
- return courses;
+  return courses;
 }
-
