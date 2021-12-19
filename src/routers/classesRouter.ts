@@ -4,6 +4,6 @@ import * as classesController from '../controllers/classesController'
 const router: Router = Router();
 
 router.post('/', classesController.createClass);
-router.get('/:courseId', classesController.getClassesByCourse);
+router.get('/', classesController.getClassesByCourse);
 
 export default router;

@@ -32,9 +32,10 @@ export async function createClass(req: Request, res: Response, next: NextFunctio
 
 export async function getClassesByCourse(req: Request, res: Response, next: NextFunction) {
   try {
-    const courseId = Number(req.params.courseId); 
-    console.log(courseId);
+    const courseId = Number(req.query.courseId); 
+
     const result = await classesService.getByCourse(courseId);
+
     return res.status(httpStatus.OK).send(result);
   } catch (error) {
     console.error(error.message);
