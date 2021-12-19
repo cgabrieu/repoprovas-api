@@ -4,19 +4,19 @@ import Conflict from '../errors/Conflict';
 import Invalid from '../errors/Invalid';
 import NotFound from '../errors/NotFound';
 import ITeacher from '../protocols/ITeacher';
-import { createClassSchema } from '../schemas/classesSchemas';
-import * as classesService from '../services/classesService';
+import { createTeacherSchema } from '../schemas/teacherSchemas';
+import * as teacherService from '../services/teacherService';
 
 export async function createTeacher(req: Request, res: Response, next: NextFunction) {
   try {
     const teacherBody: ITeacher = req.body;
 
-    const { error: invalidBody } = createClassSchema.validate(classBody);
+    const { error: invalidBody } = createTeacherSchema.validate(teacherBody);
     if (invalidBody) {
       throw new Invalid(invalidBody.message);
     }
 
-    const result = await classesService.create(teacherBody);
+    const result = await teacherService.create(teacherBody);
 
     return res.status(httpStatus.CREATED).send({
       message: result ? 'Teacher created successfully!' : 'Teacher updated successfully!',
@@ -34,7 +34,7 @@ export async function getTeachersByCourse(req: Request, res: Response, next: Nex
   try {
     const courseId = Number(req.query.courseId); 
 
-    const result = await classesService.getByCourse(courseId);
+    const result = await teacherService.getByCourse(courseId);
 
     return res.status(httpStatus.OK).send(result);
   } catch (error) {

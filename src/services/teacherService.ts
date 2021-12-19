@@ -1,41 +1,41 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getRepository } from 'typeorm';
 import ClassEntity from '../entities/ClassEntity';
 import CourseEntity from '../entities/CourseEntity';
+import TeacherEntity from '../entities/TeacherEntity';
 import Conflict from '../errors/Conflict';
 import NotFound from '../errors/NotFound';
 import IClass from '../protocols/IClass';
+import ITeacher from '../protocols/ITeacher';
 
-export async function create(classBody: IClass): Promise<ClassEntity> {
-  const { name, period, courseId } = classBody;
+export async function create(teacherBody: ITeacher): Promise<TeacherEntity> {
+  const { name, courseId } = teacherBody;
 
   const existsCourses = await getRepository(CourseEntity).findByIds(courseId);
   if (existsCourses.length < courseId.length) {
     throw new NotFound('Course not found.');
   }
 
-  const existsClass = await getRepository(ClassEntity).findOne({ name });
-  if (existsClass) {
-    const exitsClassCoursesIds = existsClass.courses.map(({ id }) => id);
-    const newCoursesIds = courseId.filter((id) => !exitsClassCoursesIds.includes(id));
+  const existsTeacher = await getRepository(TeacherEntity).findOne({ name });
+  if (existsTeacher) {
+    const exitsTeacherCoursesIds = existsTeacher.courses.map(({ id }) => id);
+    const newCoursesIds = courseId.filter((id) => !exitsTeacherCoursesIds.includes(id));
     const newCourses = await getRepository(CourseEntity).findByIds(newCoursesIds);
     if (!newCourses.length) {
-      throw new Conflict('Class already exists.')
+      throw new Conflict('Teacher already exists.')
     }
 
-    existsClass.courses.push(...newCourses);
-    await getRepository(ClassEntity).save(existsClass);
+    existsTeacher.courses.push(...newCourses);
+    await getRepository(TeacherEntity).save(existsTeacher);
     return null;
   }
 
-  const newClass = new ClassEntity();
-  newClass.name = name;
-  newClass.period = period;
-  newClass.courses = existsCourses;
+  const newTeacher = new TeacherEntity();
+  newTeacher.name = name;
+  newTeacher.courses = existsCourses;
 
-  await getRepository(ClassEntity).save(newClass);
+  await getRepository(TeacherEntity).save(newTeacher);
 
-  return newClass;
+  return newTeacher;
 }
 
 export async function getByCourse(courseId: number): Promise<IClass[]> {
@@ -45,7 +45,7 @@ export async function getByCourse(courseId: number): Promise<IClass[]> {
     }
   });
 
-  if (!classes.length) {
+  if (!classes) {
     throw new NotFound('No registered classes found.');
   }
 
