@@ -8,5 +8,6 @@ const router: Router = Router();
 router.use('/courses', coursesRouter);
 router.use('/classes', classesRouter);
 router.use('/teachers', teachersRouter);
+router.use('/tests', teachersRouter);
 
 export default router;
