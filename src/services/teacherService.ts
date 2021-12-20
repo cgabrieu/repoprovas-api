@@ -27,9 +27,6 @@ export async function create(teacherBody: ITeacher): Promise<TeacherEntity> {
     .where('LOWER(teacher.name) = LOWER(:name)', { name })
     .getOne();
 
-
-  console.log(existsTeacher);
-
   if (existsTeacher) {
     const exitsTeacherCoursesIds = existsTeacher.courses.map(({ id }) => id);
     const newCoursesIds = courseId.filter((id) => !exitsTeacherCoursesIds.includes(id));
@@ -39,8 +36,8 @@ export async function create(teacherBody: ITeacher): Promise<TeacherEntity> {
     const newClassIds = classId.filter((id) => !exitsTeacherClassIds.includes(id));
     const newClass = await getRepository(ClassEntity).findByIds(newClassIds);
 
-    if (!newCourses.length && !newClass.length ) {
-      throw new Conflict('Teacher already exists.')
+    if (!newCourses.length && !newClass.length) {
+      throw new Conflict('Teacher already exists.');
     }
 
     existsTeacher.courses.push(...newCourses);
@@ -60,12 +57,11 @@ export async function create(teacherBody: ITeacher): Promise<TeacherEntity> {
 }
 
 export async function getByCourse(courseId: number): Promise<ITeacher[]> {
-  const teachers = await getRepository(TeacherEntity).find({
-    where: (qb: any) => {
-        qb.where('course_id = :courseId', { courseId })
-    },
-    relations: ['courses']
-  });
+  const teachers = await getRepository(TeacherEntity)
+    .createQueryBuilder('teacher')
+    .leftJoin('teacher.courses', 'courses')
+    .where('courses.id = :courseId', { courseId })
+    .getMany();
 
   if (!teachers.length) {
     throw new NotFound('Teachers not found.');
@@ -75,12 +71,11 @@ export async function getByCourse(courseId: number): Promise<ITeacher[]> {
 }
 
 export async function getByClass(classId: number): Promise<ITeacher[]> {
-  const teachers = await getRepository(TeacherEntity).find({
-    where: (qb: any) => {
-        qb.where('class_id = :classId', { classId })
-    },
-    relations: ['classes']
-  });
+  const teachers = await getRepository(TeacherEntity)
+    .createQueryBuilder('teacher')
+    .leftJoin('teacher.classes', 'classes')
+    .where('classes.id = :classId', { classId })
+    .getMany();
 
   if (!teachers.length) {
     throw new NotFound('Teachers not found.');
