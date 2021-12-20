@@ -1,4 +1,4 @@
-import { Check, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Check, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import ClassEntity from './ClassEntity';
 import TeacherEntity from './TeacherEntity';
 

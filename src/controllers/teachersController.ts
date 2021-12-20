@@ -45,7 +45,6 @@ export async function getTeachersByCourseOrClass(req: Request, res: Response, ne
 
     return res.status(httpStatus.OK).send(result);
   } catch (error) {
-    console.error(error.message);
     if (error instanceof NotFound) return res.status(httpStatus.NOT_FOUND).send(error.message);
     if (error instanceof Invalid) return res.status(httpStatus.NOT_FOUND).send(error.message);
     return next();

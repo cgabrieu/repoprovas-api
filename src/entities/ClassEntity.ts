@@ -1,5 +1,4 @@
 import { Check, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { threadId } from 'worker_threads';
 import CourseEntity from './CourseEntity';
 
 @Entity('classes')

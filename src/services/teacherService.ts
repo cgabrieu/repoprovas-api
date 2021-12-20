@@ -4,7 +4,6 @@ import CourseEntity from '../entities/CourseEntity';
 import TeacherEntity from '../entities/TeacherEntity';
 import Conflict from '../errors/Conflict';
 import NotFound from '../errors/NotFound';
-import IClass from '../protocols/IClass';
 import ITeacher from '../protocols/ITeacher';
 
 export async function create(teacherBody: ITeacher): Promise<TeacherEntity> {

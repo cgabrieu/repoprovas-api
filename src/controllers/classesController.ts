@@ -22,7 +22,6 @@ export async function createClass(req: Request, res: Response, next: NextFunctio
       message: result ? 'Class created successfully!' : 'Class updated successfully!',
     });
   } catch (error) {
-    console.error(error.message);
     if (error instanceof Invalid) return res.status(httpStatus.BAD_REQUEST).send(error.message);
     if (error instanceof Conflict) return res.status(httpStatus.CONFLICT).send(error.message);
     if (error instanceof NotFound) return res.status(httpStatus.NOT_FOUND).send(error.message);
@@ -38,7 +37,6 @@ export async function getClassesByCourse(req: Request, res: Response, next: Next
 
     return res.status(httpStatus.OK).send(result);
   } catch (error) {
-    console.error(error.message);
     if (error instanceof NotFound) return res.status(httpStatus.NOT_FOUND).send(error.message);
     return next();
   }

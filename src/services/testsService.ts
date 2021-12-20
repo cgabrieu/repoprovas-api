@@ -1,11 +1,9 @@
-import { getRepository, Not } from 'typeorm';
+import { getRepository } from 'typeorm';
 import ClassEntity from '../entities/ClassEntity';
-import CourseEntity from '../entities/CourseEntity';
 import TeacherEntity from '../entities/TeacherEntity';
 import TestEntity from '../entities/TestEntity';
 import Conflict from '../errors/Conflict';
 import NotFound from '../errors/NotFound';
-import Course from '../protocols/ICourse';
 import ITest from '../protocols/ITest';
 
 export async function create(testBody: ITest): Promise<TestEntity> {
