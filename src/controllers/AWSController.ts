@@ -1,5 +1,7 @@
-import '../setup'
+import '../setup';
 import AWS from 'aws-sdk';
+import { Request, Response } from 'express';
+import httpStatus from '../enums/httpStatus';
 
 AWS.config.update({
   accessKeyId: process.env.YOUR_ACCESS_KEY_ID,
@@ -15,7 +17,9 @@ const myBucket = new AWS.S3({
   region: REGION,
 });
 
-export function generatePreSignedPutUrl(fileName: any, fileType: any) {
+export function getPreSignedPutUrl(req: Request, res: Response) {
+  const { fileName, fileType } = req.body;
+
   myBucket.getSignedUrl(
     'putObject',
     {
@@ -24,8 +28,7 @@ export function generatePreSignedPutUrl(fileName: any, fileType: any) {
       Expires: URL_EXPIRATION_TIME,
     },
     (err, url) => {
-      console.log(url);
-      return url;
-    },
+      res.status(httpStatus.OK).send(url);
+    }
   );
 }
