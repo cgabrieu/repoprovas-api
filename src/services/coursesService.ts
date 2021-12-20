@@ -7,7 +7,10 @@ import Course from '../protocols/ICourse';
 export async function create(courseBody: Course): Promise<CourseEntity> {
   const { name } = courseBody;
 
-  const existsCourse = await getRepository(CourseEntity).findOne({ name });
+  const existsCourse = await getRepository(CourseEntity)
+    .createQueryBuilder()
+    .where('LOWER(name) = LOWER(:name)', { name })
+    .getOne();
   if (existsCourse) {
     throw new Conflict('Course already registered.');
   }
@@ -23,9 +26,8 @@ export async function getList(): Promise<Course[]> {
   const courses: Course[] = await getRepository(CourseEntity).find();
 
   if (!courses.length) {
-    throw new NotFound('No registered courses found.')
+    throw new NotFound('No registered courses found.');
   }
 
- return courses;
+  return courses;
 }
-

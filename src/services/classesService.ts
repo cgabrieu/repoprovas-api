@@ -14,13 +14,16 @@ export async function create(classBody: IClass): Promise<ClassEntity> {
     throw new NotFound('Course not found.');
   }
 
-  const existsClass = await getRepository(ClassEntity).findOne({ name });
+  const existsClass = await getRepository(ClassEntity)
+    .createQueryBuilder()
+    .where('LOWER(name) = LOWER(:name)', { name })
+    .getOne();
   if (existsClass) {
     const exitsClassCoursesIds = existsClass.courses.map(({ id }) => id);
     const newCoursesIds = courseId.filter((id) => !exitsClassCoursesIds.includes(id));
     const newCourses = await getRepository(CourseEntity).findByIds(newCoursesIds);
     if (!newCourses.length) {
-      throw new Conflict('Class already exists.')
+      throw new Conflict('Class already exists.');
     }
 
     existsClass.courses.push(...newCourses);
@@ -41,8 +44,8 @@ export async function create(classBody: IClass): Promise<ClassEntity> {
 export async function getByCourse(courseId: number): Promise<IClass[]> {
   const classes = await getRepository(ClassEntity).find({
     where: (qb: any) => {
-        qb.where('course_id = :courseId', {courseId})
-    }
+      qb.where('course_id = :courseId', { courseId });
+    },
   });
 
   if (!classes.length) {

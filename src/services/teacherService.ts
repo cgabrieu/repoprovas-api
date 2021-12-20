@@ -15,7 +15,10 @@ export async function create(teacherBody: ITeacher): Promise<TeacherEntity> {
     throw new NotFound('Course not found.');
   }
 
-  const existsTeacher = await getRepository(TeacherEntity).findOne({ name });
+  const existsTeacher = await getRepository(TeacherEntity)
+    .createQueryBuilder()
+    .where('LOWER(name) = LOWER(:name)', { name })
+    .getOne();
   if (existsTeacher) {
     const exitsTeacherCoursesIds = existsTeacher.courses.map(({ id }) => id);
     const newCoursesIds = courseId.filter((id) => !exitsTeacherCoursesIds.includes(id));
