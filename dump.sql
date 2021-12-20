@@ -56,6 +56,15 @@ CREATE TABLE "classes_courses" (
   OIDS=FALSE
 );
 
+CREATE TABLE "teachers_classes" (
+	"id" serial NOT NULL,
+	"teacher_id" integer NOT NULL,
+	"class_id" integer NOT NULL,
+	CONSTRAINT "teachers_classes_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
 ALTER TABLE "tests" ADD CONSTRAINT "tests_fk0" FOREIGN KEY ("teacher_id") REFERENCES "teachers"("id");
 ALTER TABLE "tests" ADD CONSTRAINT "tests_fk1" FOREIGN KEY ("class_id") REFERENCES "classes"("id");
 
@@ -64,3 +73,11 @@ ALTER TABLE "teachers_courses" ADD CONSTRAINT "teachers_courses_fk1" FOREIGN KEY
 
 ALTER TABLE "classes_courses" ADD CONSTRAINT "classes_courses_fk0" FOREIGN KEY ("class_id") REFERENCES "classes"("id");
 ALTER TABLE "classes_courses" ADD CONSTRAINT "classes_courses_fk1" FOREIGN KEY ("course_id") REFERENCES "courses"("id");
+
+ALTER TABLE "teachers_classes" ADD CONSTRAINT "teachers_classes_fk0" FOREIGN KEY ("teacher_id") REFERENCES "teachers"("id");
+ALTER TABLE "teachers_classes" ADD CONSTRAINT "teachers_classes_fk1" FOREIGN KEY ("class_id") REFERENCES "classes"("id");
+
+
+
+
+

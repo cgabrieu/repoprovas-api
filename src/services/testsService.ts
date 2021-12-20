@@ -36,13 +36,13 @@ export async function create(testBody: ITest): Promise<TestEntity> {
   return test;
 }
 
-export async function getList(): Promise<Course[]> {
-  const courses: Course[] = await getRepository(CourseEntity).find();
+export async function get(): Promise<TestEntity[]> {
+  const tests = await getRepository(TestEntity).find();
 
-  if (!courses.length) {
-    throw new NotFound('No registered courses found.')
+  if (!tests.length) {
+    throw new NotFound('No registered tests found.')
   }
 
- return courses;
+ return tests;
 }
 
