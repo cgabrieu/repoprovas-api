@@ -43,3 +43,17 @@ export async function getTeachersByCourse(req: Request, res: Response, next: Nex
     return next();
   }
 }
+
+export async function getTeachersByClass(req: Request, res: Response, next: NextFunction) {
+  try {
+    const classId = Number(req.query.classId); 
+
+    const result = await teacherService.getByClass(classId);
+
+    return res.status(httpStatus.OK).send(result);
+  } catch (error) {
+    console.error(error.message);
+    if (error instanceof NotFound) return res.status(httpStatus.NOT_FOUND).send(error.message);
+    return next();
+  }
+}

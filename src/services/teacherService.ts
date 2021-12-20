@@ -42,8 +42,29 @@ export async function getByCourse(courseId: number): Promise<ITeacher[]> {
   const teachers = await getRepository(TeacherEntity).find({
     where: (qb: any) => {
         qb.where('course_id = :courseId', {courseId})
-    }
+    },
   });
+
+  if (!teachers.length) {
+    throw new NotFound('No registered teachers found.');
+  }
+
+  return teachers;
+}
+
+export async function getByClass(courseId: number): Promise<ITeacher[]> {
+  const teachers = await getRepository(TeacherEntity).find({
+    where: (qb: any) => {
+        qb.where('course_id = :courseId', {courseId})
+    },
+  });
+
+  const newTeachers = await getRepository(TeacherEntity).find({
+    where: {
+      classes: {
+
+      }
+    } });
 
   if (!teachers.length) {
     throw new NotFound('No registered teachers found.');

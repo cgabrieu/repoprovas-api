@@ -1,4 +1,5 @@
 import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import ClassEntity from './ClassEntity';
 import CourseEntity from './CourseEntity';
 
 @Entity('teachers')
@@ -9,7 +10,7 @@ export default class TeacherEntity {
     @Column()
     name: string;
 
-    @ManyToMany(() => CourseEntity, (course) => course.id, { eager: true })
+    @ManyToMany(() => CourseEntity, { eager: true })
     @JoinTable({
         name: 'teachers_courses',
         joinColumn: {
@@ -21,5 +22,19 @@ export default class TeacherEntity {
             referencedColumnName: "id"
         }
     })
-    courses: CourseEntity[]
+    courses: CourseEntity[];
+
+    @ManyToMany(() => ClassEntity, { eager: true })
+    @JoinTable({
+        name: 'teachers_classes',
+        joinColumn: {
+            name: 'teacher_id',
+            referencedColumnName: 'id'
+        },
+        inverseJoinColumn: {
+            name: "class_id",
+            referencedColumnName: "id"
+        }
+    })
+    classes: ClassEntity[];
 }
