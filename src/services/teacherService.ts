@@ -17,6 +17,7 @@ export async function create(teacherBody: ITeacher): Promise<TeacherEntity> {
 
   const existsTeacher = await getRepository(TeacherEntity)
     .createQueryBuilder()
+    .leftJoinAndSelect('class.courses', 'courses')
     .where('LOWER(name) = LOWER(:name)', { name })
     .getOne();
   if (existsTeacher) {

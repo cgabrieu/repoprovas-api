@@ -19,7 +19,6 @@ export async function create(classBody: IClass): Promise<ClassEntity> {
     .leftJoinAndSelect('class.courses', 'courses')
     .where('LOWER(class.name) = LOWER(:name)', { name })
     .getOne();
-  console.log(existsClass);
   if (existsClass) {
     const exitsClassCoursesIds = existsClass.courses.map(({ id }) => id);
     const newCoursesIds = courseId.filter((id) => !exitsClassCoursesIds.includes(id));
