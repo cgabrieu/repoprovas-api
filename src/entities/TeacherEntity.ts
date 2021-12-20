@@ -10,7 +10,7 @@ export default class TeacherEntity {
     @Column()
     name: string;
 
-    @ManyToMany(() => CourseEntity, { eager: true })
+    @ManyToMany(() => CourseEntity)
     @JoinTable({
         name: 'teachers_courses',
         joinColumn: {
@@ -24,7 +24,7 @@ export default class TeacherEntity {
     })
     courses: CourseEntity[];
 
-    @ManyToMany(() => ClassEntity, { eager: true })
+    @ManyToMany(() => ClassEntity)
     @JoinTable({
         name: 'teachers_classes',
         joinColumn: {

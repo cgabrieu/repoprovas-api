@@ -30,16 +30,24 @@ export async function createTeacher(req: Request, res: Response, next: NextFunct
   }
 }
 
-export async function getTeachersByCourse(req: Request, res: Response, next: NextFunction) {
+export async function getTeachersByCourseOrClass(req: Request, res: Response, next: NextFunction) {
   try {
-    const courseId = Number(req.query.courseId); 
+    const courseId = Number(req.query.courseId);
+    const classId = Number(req.query.classId); 
 
-    const result = await teacherService.getByCourse(courseId);
+    if ((courseId && classId) || !Number.isInteger(courseId || classId) || (courseId || classId) < 1) {
+      throw new Invalid('Invalid Queries.');
+    }
+
+    const result = courseId
+      ? await teacherService.getByCourse(courseId)
+      : await teacherService.getByClass(classId);
 
     return res.status(httpStatus.OK).send(result);
   } catch (error) {
     console.error(error.message);
     if (error instanceof NotFound) return res.status(httpStatus.NOT_FOUND).send(error.message);
+    if (error instanceof Invalid) return res.status(httpStatus.NOT_FOUND).send(error.message);
     return next();
   }
 }
