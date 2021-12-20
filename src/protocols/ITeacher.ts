@@ -1,4 +1,5 @@
 export default interface ITeacher {
     name: string;
-    courseId?: number[]; 
+    courseId?: number[];
+    classId?: number[];
 }

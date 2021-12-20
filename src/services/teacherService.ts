@@ -8,27 +8,43 @@ import IClass from '../protocols/IClass';
 import ITeacher from '../protocols/ITeacher';
 
 export async function create(teacherBody: ITeacher): Promise<TeacherEntity> {
-  const { name, courseId } = teacherBody;
+  const { name, courseId, classId } = teacherBody;
 
   const existsCourses = await getRepository(CourseEntity).findByIds(courseId);
   if (existsCourses.length < courseId.length) {
     throw new NotFound('Course not found.');
   }
 
+  const existsClasses = await getRepository(ClassEntity).findByIds(classId);
+  if (existsClasses.length < classId.length) {
+    throw new NotFound('Class not found.');
+  }
+
   const existsTeacher = await getRepository(TeacherEntity)
-    .createQueryBuilder()
-    .leftJoinAndSelect('class.courses', 'courses')
-    .where('LOWER(name) = LOWER(:name)', { name })
+    .createQueryBuilder('teacher')
+    .leftJoinAndSelect('teacher.courses', 'courses')
+    .leftJoinAndSelect('teacher.classes', 'classes')
+    .where('LOWER(teacher.name) = LOWER(:name)', { name })
     .getOne();
+
+
+  console.log(existsTeacher);
+
   if (existsTeacher) {
     const exitsTeacherCoursesIds = existsTeacher.courses.map(({ id }) => id);
     const newCoursesIds = courseId.filter((id) => !exitsTeacherCoursesIds.includes(id));
     const newCourses = await getRepository(CourseEntity).findByIds(newCoursesIds);
-    if (!newCourses.length) {
+
+    const exitsTeacherClassIds = existsTeacher.classes.map(({ id }) => id);
+    const newClassIds = classId.filter((id) => !exitsTeacherClassIds.includes(id));
+    const newClass = await getRepository(ClassEntity).findByIds(newClassIds);
+
+    if (!newCourses.length && !newClass.length ) {
       throw new Conflict('Teacher already exists.')
     }
 
     existsTeacher.courses.push(...newCourses);
+    existsTeacher.classes.push(...newClass);
     await getRepository(TeacherEntity).save(existsTeacher);
     return null;
   }
@@ -36,6 +52,7 @@ export async function create(teacherBody: ITeacher): Promise<TeacherEntity> {
   const newTeacher = new TeacherEntity();
   newTeacher.name = name;
   newTeacher.courses = existsCourses;
+  newTeacher.classes = existsClasses;
 
   await getRepository(TeacherEntity).save(newTeacher);
 
