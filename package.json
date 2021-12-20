@@ -7,7 +7,7 @@
     "node": "14.17.5"
   },
   "scripts": {
-    "start": "NODE_ENV=prod NODE_TLS_REJECT_UNAUTHORIZED=0 NAME=DBProducao npm run newmigration && node dist/server.js",
+    "start": "NODE_ENV=prod NODE_TLS_REJECT_UNAUTHORIZED=0 node dist/server.js",
     "build": "tsc",
     "test": "NODE_ENV=test npx jest -i",
     "dev": "ts-node-dev --respawn --transpile-only --inspect -- ./src/server.ts --ignore-watch node_modules",
