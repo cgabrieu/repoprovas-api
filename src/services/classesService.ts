@@ -15,9 +15,11 @@ export async function create(classBody: IClass): Promise<ClassEntity> {
   }
 
   const existsClass = await getRepository(ClassEntity)
-    .createQueryBuilder()
-    .where('LOWER(name) = LOWER(:name)', { name })
+    .createQueryBuilder('class')
+    .leftJoinAndSelect('class.courses', 'courses')
+    .where('LOWER(class.name) = LOWER(:name)', { name })
     .getOne();
+  console.log(existsClass);
   if (existsClass) {
     const exitsClassCoursesIds = existsClass.courses.map(({ id }) => id);
     const newCoursesIds = courseId.filter((id) => !exitsClassCoursesIds.includes(id));
@@ -42,11 +44,11 @@ export async function create(classBody: IClass): Promise<ClassEntity> {
 }
 
 export async function getByCourse(courseId: number): Promise<IClass[]> {
-  const classes = await getRepository(ClassEntity).find({
-    where: (qb: any) => {
-      qb.where('course_id = :courseId', { courseId });
-    },
-  });
+  const classes = await getRepository(ClassEntity)
+    .createQueryBuilder('class')
+    .leftJoin('class.courses', 'courses')
+    .where('courses.id = :courseId', { courseId })
+    .getMany();
 
   if (!classes.length) {
     throw new NotFound('No registered classes found.');

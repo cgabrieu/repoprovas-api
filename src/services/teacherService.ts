@@ -44,7 +44,7 @@ export async function create(teacherBody: ITeacher): Promise<TeacherEntity> {
 export async function getByCourse(courseId: number): Promise<ITeacher[]> {
   const teachers = await getRepository(TeacherEntity).find({
     where: (qb: any) => {
-        qb.where('course_id = :courseId', {courseId})
+        qb.where('course_id = :courseId', { courseId })
     },
     relations: ['courses']
   });
@@ -59,7 +59,7 @@ export async function getByCourse(courseId: number): Promise<ITeacher[]> {
 export async function getByClass(classId: number): Promise<ITeacher[]> {
   const teachers = await getRepository(TeacherEntity).find({
     where: (qb: any) => {
-        qb.where('class_id = :classId', {classId})
+        qb.where('class_id = :classId', { classId })
     },
     relations: ['classes']
   });
