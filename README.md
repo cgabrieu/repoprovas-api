@@ -6,7 +6,7 @@
     <img src="" width="300px">
   </a>
     <br />
-    <a href="https://repoprovas-cgabrieu.herokuapp.com">View the deploy</a>
+    <a href="https://repoprovas-cgabrieu.herokuapp.com">View</a>
     <br />
 </div>
   
