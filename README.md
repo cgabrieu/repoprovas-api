@@ -14,7 +14,7 @@
 
 ## About
 
-This is a repository of tests, it can be extended to your college. In it you can share the old tests of teachers and classes for them to have support in the tests. It is also possible to add new courses, teachers and classes and upload the tests directly through the app.
+RepoProvas is a collaborative platform where students can share and access past exams to better prepare for tests. You can add new courses, teachers, and subjects, as well as upload exams directly through the app. It makes studying easier by organizing academic materials in one place.
     
 <br/>
 
@@ -84,11 +84,4 @@ npm run start:dev
 2. Create a new branch with your changes: `git checkout -b feat/myFeatureName`
 3. For each feature implemented, make a commit specifying what was done
 4. Submit your changes: `git push -u origin feat/myFeatureName`
-
-
-<br/>
-
-## Developer
-
-* [Carlos Gabriel](https://github.com/cgabrieu)
 
